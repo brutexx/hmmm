@@ -5,7 +5,13 @@
     "showExternalReferences": true,
     "showDatatypes": true,
     "showGensets": true,
-    "derivedMaterialMode": "both"
+    "derivedMaterialMode": "both",
+    "hidden": [
+      "hmmm::Person",
+      "hmmm::PersonBySex",
+      "hmmm::Man",
+      "hmmm::Woman"
+    ]
   },
   "display": {
     "taxonomyOnly": false,
@@ -35,24 +41,100 @@
   },
   "nodes": {
     "hmmm::Aldeao": {
-      "x": 112,
+      "x": 272,
       "y": 24
     },
     "hmmm::AldeaoBebe": {
-      "x": 40,
-      "y": 144
+      "x": 520,
+      "y": -48
     },
     "hmmm::AldeaoAdulto": {
-      "x": 192,
-      "y": 144
+      "x": 520,
+      "y": 16
     },
     "hmmm::AldeaoSaudavel": {
-      "x": 40,
-      "y": -96
+      "x": 200,
+      "y": -128
     },
     "hmmm::AldeaoZumbi": {
-      "x": 200,
-      "y": -96
+      "x": 328,
+      "y": -128
+    },
+    "hmmm::Comerciante": {
+      "x": 120,
+      "y": 160
+    },
+    "hmmm::Troca": {
+      "x": -128,
+      "y": 24
+    },
+    "hmmm::Jogador": {
+      "x": -128,
+      "y": -104
+    },
+    "hmmm::Açougueiro": {
+      "x": 216,
+      "y": 248
+    },
+    "hmmm::Clérigo": {
+      "x": 344,
+      "y": 248
+    },
+    "hmmm::AldeaoComProfissaoFixada": {
+      "x": 24,
+      "y": 88
+    },
+    "hmmm::AldeaoEmpregadoComBloco": {
+      "x": -112,
+      "y": 216
+    },
+    "hmmm::Reivindicacao": {
+      "x": -72,
+      "y": 304
+    },
+    "hmmm::BlocoDeTrabalho": {
+      "x": -80,
+      "y": 400
+    },
+    "hmmm::Profissao": {
+      "x": 280,
+      "y": 360
+    },
+    "hmmm::Emprego": {
+      "x": 280,
+      "y": 464
+    },
+    "hmmm::AldeaoEmpregadoFixado": {
+      "x": -96,
+      "y": 168
+    },
+    "hmmm::Person": {
+      "x": -208,
+      "y": 488
+    },
+    "hmmm::PersonType": {
+      "x": -200,
+      "y": 640
+    },
+    "hmmm::PersonBySex": {
+      "x": -208,
+      "y": 736
+    },
+    "hmmm::Man": {
+      "x": -152,
+      "y": 648
+    },
+    "hmmm::Woman": {
+      "x": -272,
+      "y": 648
+    },
+    "AldeaoEmpregado": {
+      "x": 184,
+      "y": 296
+    },
+    "hmmm::AldeaoEmpregado": {
+      "x": 264,
+      "y": 128
     }
   },
   "edges": {}

@@ -1,5 +1,12 @@
 ontology hmmm
 
+/// Uma pessoa que joga Minecraft em um mundo.
+kind Jogador
+
+/// Um bloco que um aldeão pode reivindicar como seu local de trabalho,
+/// como o defumador ou o suporte de poções.
+kind BlocoDeTrabalho
+
 kind Aldeao
 
 phase AldeaoBebe specializes Aldeao
@@ -14,3 +21,62 @@ phase AldeaoSaudavel specializes Aldeao
 phase AldeaoZumbi specializes Aldeao
 disjoint complete genset saúde
     where AldeaoSaudavel, AldeaoZumbi specializes Aldeao
+
+/// Uma profissão de aldeão, como açougueiro ou clérigo.
+type Profissao
+
+/// Um aldeão que exerce uma profissão.
+role AldeaoEmpregado specializes Aldeao
+
+/// O vínculo entre um aldeão e a profissão que ele exerce.
+///
+/// Começa quando o aldeão reivindica um bloco de trabalho.
+relator Emprego {
+    @mediation [1] -- [1] (const) AldeaoEmpregado
+    @mediation [0..*] -- [1] (const) Profissao
+}
+
+/// Um aldeão empregado que reivindica um bloco de trabalho.
+role AldeaoEmpregadoComBloco specializes AldeaoEmpregado
+
+/// Um aldeão empregado que já negociou, e por isso não perde mais a profissão.
+role AldeaoEmpregadoFixado specializes AldeaoEmpregado, AldeaoComProfissaoFixada
+
+/// Um aldeão só é empregado enquanto reivindica um bloco ou depois de ter
+/// negociado. Os dois casos podem valer ao mesmo tempo.
+complete genset sustentacaoDoEmprego
+    where AldeaoEmpregadoComBloco, AldeaoEmpregadoFixado specializes AldeaoEmpregado
+
+/// A ligação entre um aldeão empregado e o bloco de trabalho que ele reivindicou.
+///
+/// Cada aldeão reivindica no máximo um bloco, e cada bloco é reivindicado
+/// por no máximo um aldeão.
+relator Reivindicacao {
+    @mediation [1] -- [1] (const) AldeaoEmpregadoComBloco
+    @mediation [0..1] -- [1] (const) BlocoDeTrabalho
+}
+
+/// Um aldeão empregado como açougueiro, profissão ligada ao defumador.
+role Açougueiro (instanceOf Profissao) specializes AldeaoEmpregado
+/// Um aldeão empregado como clérigo, profissão ligada ao suporte de poções.
+role Clérigo (instanceOf Profissao) specializes AldeaoEmpregado
+disjoint genset profissão {
+    general AldeaoEmpregado
+    categorizer Profissao
+    specifics Açougueiro, Clérigo
+}
+
+/// Um jogador e um aldeão negociaram: o jogador entregou os itens pedidos
+/// e recebeu o item oferecido.
+event Troca
+
+/// Um aldeão negociou com um jogador.
+@participation relation Aldeao (const) [1] -- negociouEm -- [0..*] (addOnly) Troca
+/// Um jogador negociou com um aldeão.
+@participation relation Jogador (const) [1] -- negociouEm -- [0..*] (addOnly) Troca
+
+/// Um aldeão que já negociou ao menos uma vez.
+///
+/// A primeira troca fixa a profissão do aldeão: o emprego dele não termina
+/// mais, nem se o bloco de trabalho for destruído.
+historicalRole AldeaoComProfissaoFixada specializes Aldeao derivedFrom Aldeao.negociouEm
