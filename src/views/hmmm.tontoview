@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "content": {
+    "scope": "file",
+    "showExternalReferences": true,
+    "showDatatypes": true,
+    "showGensets": true,
+    "derivedMaterialMode": "both"
+  },
+  "display": {
+    "taxonomyOnly": false,
+    "partonomyOnly": false,
+    "routing": "straight",
+    "fontFamily": "sans",
+    "fontSize": "medium",
+    "showAttributes": true,
+    "showCardinalities": true,
+    "showExactlyOne": false,
+    "showRelationNames": true,
+    "showRelationStereotypes": true,
+    "showEndDecorations": true,
+    "showRoleNames": true,
+    "showColors": true,
+    "transparentBackground": false,
+    "showLegend": false,
+    "showPackageGroups": true,
+    "qualifyNames": false
+  },
+  "layout": {
+    "direction": "DOWN",
+    "associationDistance": 100,
+    "nodeSpacing": 60,
+    "rankSpacing": 100,
+    "groupByPackage": false
+  },
+  "nodes": {
+    "hmmm::Aldeao": {
+      "x": 112,
+      "y": 8
+    },
+    "hmmm::AldeaoBebe": {
+      "x": 12,
+      "y": 208
+    },
+    "hmmm::AldeaoAdulto": {
+      "x": 210,
+      "y": 208
+    }
+  },
+  "edges": {}
+}
