@@ -81,20 +81,20 @@
       "y": 248
     },
     "hmmm::AldeaoComProfissaoFixada": {
-      "x": 24,
-      "y": 88
+      "x": -56,
+      "y": 112
     },
     "hmmm::AldeaoEmpregadoComBloco": {
-      "x": -112,
-      "y": 216
+      "x": -56,
+      "y": 176
     },
     "hmmm::Reivindicacao": {
-      "x": -72,
-      "y": 304
+      "x": -16,
+      "y": 288
     },
     "hmmm::BlocoDeTrabalho": {
-      "x": -80,
-      "y": 400
+      "x": -24,
+      "y": 392
     },
     "hmmm::Profissao": {
       "x": 280,

@@ -39,13 +39,10 @@ relator Emprego {
 /// Um aldeão empregado que reivindica um bloco de trabalho.
 role AldeaoEmpregadoComBloco specializes AldeaoEmpregado
 
-/// Um aldeão empregado que já negociou, e por isso não perde mais a profissão.
-role AldeaoEmpregadoFixado specializes AldeaoEmpregado, AldeaoComProfissaoFixada
-
 /// Um aldeão só é empregado enquanto reivindica um bloco ou depois de ter
 /// negociado. Os dois casos podem valer ao mesmo tempo.
 complete genset sustentacaoDoEmprego
-    where AldeaoEmpregadoComBloco, AldeaoEmpregadoFixado specializes AldeaoEmpregado
+    where AldeaoEmpregadoComBloco, AldeaoComProfissaoFixada specializes AldeaoEmpregado
 
 /// A ligação entre um aldeão empregado e o bloco de trabalho que ele reivindicou.
 ///
@@ -75,8 +72,10 @@ event Troca
 /// Um jogador negociou com um aldeão.
 @participation relation Jogador (const) [1] -- negociouEm -- [0..*] (addOnly) Troca
 
-/// Um aldeão que já negociou ao menos uma vez.
+/// Um aldeão empregado que já negociou ao menos uma vez.
 ///
-/// A primeira troca fixa a profissão do aldeão: o emprego dele não termina
-/// mais, nem se o bloco de trabalho for destruído.
-historicalRole AldeaoComProfissaoFixada specializes Aldeao derivedFrom Aldeao.negociouEm
+/// Só um aldeão empregado negocia, e a primeira troca fixa a profissão dele:
+/// o emprego não termina mais, nem se o bloco de trabalho for destruído.
+historicalRole AldeaoComProfissaoFixada specializes AldeaoEmpregado derivedFrom Aldeao.negociouEm
+
+
