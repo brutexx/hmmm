@@ -36,15 +36,23 @@
   "nodes": {
     "hmmm::Aldeao": {
       "x": 112,
-      "y": 8
+      "y": 24
     },
     "hmmm::AldeaoBebe": {
-      "x": 12,
-      "y": 208
+      "x": 40,
+      "y": 144
     },
     "hmmm::AldeaoAdulto": {
-      "x": 210,
-      "y": 208
+      "x": 192,
+      "y": 144
+    },
+    "hmmm::AldeaoSaudavel": {
+      "x": 40,
+      "y": -96
+    },
+    "hmmm::AldeaoZumbi": {
+      "x": 200,
+      "y": -96
     }
   },
   "edges": {}

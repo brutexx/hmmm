@@ -1,7 +1,13 @@
 ontology hmmm
 
 kind Aldeao
+
 phase AldeaoBebe specializes Aldeao
 phase AldeaoAdulto specializes Aldeao
-disjoint complete genset lifeStages where AldeaoBebe, AldeaoAdulto specializes Aldeao
+disjoint complete genset estagiosDaVida
+    where AldeaoBebe, AldeaoAdulto specializes Aldeao
 
+phase AldeaoSaudavel specializes Aldeao
+phase AldeaoZumbi specializes Aldeao
+disjoint complete genset saúde
+    where AldeaoSaudavel, AldeaoZumbi specializes Aldeao
