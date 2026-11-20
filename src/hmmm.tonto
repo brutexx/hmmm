@@ -3,6 +3,9 @@ ontology hmmm
 kind Aldeao
 
 phase AldeaoBebe specializes Aldeao
+/// Um aldeão que já cresceu.
+///
+/// Um aldeão adulto não volta a ser bebê.
 phase AldeaoAdulto specializes Aldeao
 disjoint complete genset estagiosDaVida
     where AldeaoBebe, AldeaoAdulto specializes Aldeao
