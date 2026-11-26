@@ -26,7 +26,16 @@ disjoint complete genset saúde
 type Profissao
 
 /// Um aldeão que exerce uma profissão.
-role AldeaoEmpregado specializes Aldeao
+role AldeaoEmpregado specializes Aldeao {
+    /// Os pontos de experiência que o aldeão acumulou negociando.
+    experiencia: number
+    /// O nível que o aldeão alcançou na profissão. Decorre da experiência:
+    /// Aprendiz a partir de 10 pontos, Qualificado a partir de 70, Experiente
+    /// a partir de 150 e Mestre a partir de 250.
+    nivel: NivelDeProfissao
+}
+
+
 
 /// O vínculo entre um aldeão e a profissão que ele exerce.
 ///
@@ -78,4 +87,65 @@ event Troca
 /// o emprego não termina mais, nem se o bloco de trabalho for destruído.
 historicalRole AldeaoComProfissaoFixada specializes AldeaoEmpregado derivedFrom Aldeao.negociouEm
 
+/// Um tipo de item do jogo, como esmeralda, trigo ou livro encantado.
+///
+/// As instâncias são os tipos de item, e não os itens que estão no
+/// inventário de alguém.
+type TipoDeItem
 
+/// Um dos cinco níveis que um aldeão empregado alcança ganhando experiência.
+enum NivelDeProfissao {
+    Novato,
+    Aprendiz,
+    Qualificado,
+    Experiente,
+    Mestre
+}
+
+/// Uma troca que o jogo prevê para uma profissão em um nível, como 
+/// "O Agricultor Novato compra 20 trigos por uma esmeralda".
+///
+/// As instâncias são os tipos de oferta. 
+/// Cada oferta de um aldeão é de um desses tipos.
+type TipoDeOferta {
+    /// O nível a partir do qual um aldeão da profissão pode ter esta oferta.
+    nivel: const NivelDeProfissao
+    /// Quantas vezes uma oferta deste tipo pode ser usada antes de esgotar.
+    usosMaximos: const number
+    /// Quanto de experiência o aldeão ganha a cada troca feita por meio de
+    /// uma oferta deste tipo.
+    experienciaConcedida: const number
+}
+
+/// A profissão cujos aldeões podem ter ofertas deste tipo.
+relation TipoDeOferta [0..*] -- pertenceA -- [1] Profissao
+/// O primeiro item que o aldeão pede.
+relation TipoDeOferta [0..*] -- pede -- [1] TipoDeItem
+/// O segundo item que o aldeão pede, quando há.
+relation TipoDeOferta [0..*] -- pedeTambem -- [0..1] TipoDeItem
+/// O item que o aldeão entrega.
+relation TipoDeOferta [0..*] -- oferece -- [1] TipoDeItem
+
+/// A disposição de um aldeão empregado de fazer uma troca com qualquer
+/// jogador: entregar um item em troca dos itens que pede.
+///
+/// Ao alcançar cada nível, o aldeão sorteia até duas ofertas entre os tipos
+/// daquele nível para a sua profissão, e mantém as que já tinha. O tipo da
+/// oferta é da profissão do aldeão e de um nível que ele já alcançou.
+intrinsicMode OfertaDeTroca {
+    // characterization porque é uma feature instrínseca do seu "bearer",
+    // que é o aldeão empregado. 
+    @characterization [0..*] -- [1] (const) AldeaoEmpregado
+    @instantiation [0..*] -- [1] (const) TipoDeOferta
+    /// Quantos itens do primeiro tipo o aldeão pede, antes de descontos e demanda.
+    quantidadePedida: const number
+    /// Quantos itens do segundo tipo o aldeão pede, quando há.
+    quantidadePedidaTambem: const number [0..1]
+    /// Quantos itens o aldeão entrega.
+    quantidadeOferecida: const number
+    /// Quantas vezes a oferta foi usada desde o último reabastecimento.
+    usos: number
+}
+
+/// Uma troca aconteceu por meio desta oferta, com o aldeão que a tem.
+@manifestation relation OfertaDeTroca (const) [1] -- manifestouSeEm -- [0..*] (addOnly) Troca

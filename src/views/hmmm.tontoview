@@ -74,11 +74,11 @@
     },
     "hmmm::Açougueiro": {
       "x": 216,
-      "y": 248
+      "y": 256
     },
     "hmmm::Clérigo": {
       "x": 344,
-      "y": 248
+      "y": 256
     },
     "hmmm::AldeaoComProfissaoFixada": {
       "x": -56,
@@ -113,8 +113,8 @@
       "y": 488
     },
     "hmmm::PersonType": {
-      "x": -200,
-      "y": 640
+      "x": -192,
+      "y": 726
     },
     "hmmm::PersonBySex": {
       "x": -208,
@@ -134,7 +134,23 @@
     },
     "hmmm::AldeaoEmpregado": {
       "x": 264,
-      "y": 128
+      "y": 120
+    },
+    "hmmm::TipoDeItem": {
+      "x": 520,
+      "y": 616
+    },
+    "hmmm::TipoDeOferta": {
+      "x": 184,
+      "y": 584
+    },
+    "hmmm::NivelDeProfissao": {
+      "x": 456,
+      "y": 416
+    },
+    "hmmm::OfertaDeTroca": {
+      "x": -192,
+      "y": 568
     }
   },
   "edges": {}
