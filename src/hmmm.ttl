@@ -1,0 +1,467 @@
+# Written by `tonto gufo` from the tonto ontology hmmm.
+# Change the model and export it again, rather than this file.
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix gufo: <http://purl.org/nemo/gufo#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix hmmm: <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm#> .
+
+<http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> a owl:Ontology ;
+    owl:imports <http://purl.org/nemo/gufo#> ;
+    vann:preferredNamespacePrefix "hmmm" ;
+    vann:preferredNamespaceUri "http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm#" .
+
+hmmm:Jogador a owl:Class, gufo:Kind ;
+    rdfs:label "Jogador" ;
+    rdfs:comment "Uma pessoa que joga Minecraft em um mundo." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf gufo:FunctionalComplex .
+
+hmmm:BlocoDeTrabalho a owl:Class, gufo:Kind ;
+    rdfs:label "BlocoDeTrabalho" ;
+    rdfs:comment """Um bloco que um aldeão pode reivindicar como seu local de trabalho,
+como o defumador ou o suporte de poções.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf gufo:FunctionalComplex .
+
+hmmm:Aldeao a owl:Class, gufo:Kind ;
+    rdfs:label "Aldeao" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf gufo:FunctionalComplex ;
+    owl:equivalentClass
+        [ a owl:Class ; owl:unionOf ( hmmm:AldeaoAdulto hmmm:AldeaoBebe ) ],
+        [ a owl:Class ; owl:unionOf ( hmmm:AldeaoSaudavel hmmm:AldeaoZumbi ) ] .
+
+hmmm:AldeaoBebe a owl:Class, gufo:Phase ;
+    rdfs:label "AldeaoBebe" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf hmmm:Aldeao .
+
+hmmm:AldeaoAdulto a owl:Class, gufo:Phase ;
+    rdfs:label "AldeaoAdulto" ;
+    rdfs:comment """Um aldeão que já cresceu.
+
+Um aldeão adulto não volta a ser bebê.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf hmmm:Aldeao .
+
+hmmm:AldeaoSaudavel a owl:Class, gufo:Phase ;
+    rdfs:label "AldeaoSaudavel" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf hmmm:Aldeao .
+
+hmmm:AldeaoZumbi a owl:Class, gufo:Phase ;
+    rdfs:label "AldeaoZumbi" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf hmmm:Aldeao .
+
+hmmm:Profissao a owl:Class ;
+    rdfs:label "Profissao" ;
+    rdfs:comment "Uma profissão de aldeão, como açougueiro ou clérigo." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf gufo:Type ;
+    gufo:categorizes hmmm:AldeaoEmpregado .
+
+hmmm:AldeaoEmpregado a owl:Class, gufo:Role ;
+    rdfs:label "AldeaoEmpregado" ;
+    rdfs:comment "Um aldeão que exerce uma profissão." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf
+        hmmm:Aldeao,
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:AldeaoEmpregado.experiencia ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:AldeaoEmpregado.nivel ;
+          owl:someValuesFrom hmmm:NivelDeProfissao ],
+        [ a owl:Restriction ;
+          owl:onProperty [ owl:inverseOf hmmm:Emprego.mediatesAldeaoEmpregado ] ;
+          owl:someValuesFrom hmmm:Emprego ] ;
+    owl:equivalentClass [ a owl:Class ;
+                          owl:unionOf (
+                              hmmm:AldeaoComProfissaoFixada
+                              hmmm:AldeaoEmpregadoComBloco
+                          ) ] .
+
+hmmm:Emprego a owl:Class, gufo:Kind ;
+    rdfs:label "Emprego" ;
+    rdfs:comment """O vínculo entre um aldeão e a profissão que ele exerce.
+
+Começa quando o aldeão reivindica um bloco de trabalho.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf
+        gufo:Relator,
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:Emprego.mediatesAldeaoEmpregado ;
+          owl:onClass hmmm:AldeaoEmpregado ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:Emprego.mediatesProfissao ;
+          owl:onClass hmmm:Profissao ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ] .
+
+hmmm:AldeaoEmpregadoComBloco a owl:Class, gufo:Role ;
+    rdfs:label "AldeaoEmpregadoComBloco" ;
+    rdfs:comment "Um aldeão empregado que reivindica um bloco de trabalho." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf
+        hmmm:AldeaoEmpregado,
+        [ a owl:Restriction ;
+          owl:onProperty [ owl:inverseOf hmmm:Reivindicacao.mediatesAldeaoEmpregadoComBloco ] ;
+          owl:someValuesFrom hmmm:Reivindicacao ] .
+
+hmmm:Reivindicacao a owl:Class, gufo:Kind ;
+    rdfs:label "Reivindicacao" ;
+    rdfs:comment """A ligação entre um aldeão empregado e o bloco de trabalho que ele reivindicou.
+
+Cada aldeão reivindica no máximo um bloco, e cada bloco é reivindicado
+por no máximo um aldeão.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf
+        gufo:Relator,
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:Reivindicacao.mediatesAldeaoEmpregadoComBloco ;
+          owl:onClass hmmm:AldeaoEmpregadoComBloco ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:Reivindicacao.mediatesBlocoDeTrabalho ;
+          owl:onClass hmmm:BlocoDeTrabalho ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ] .
+
+hmmm:Açougueiro a owl:Class, gufo:Role, hmmm:Profissao ;
+    rdfs:label "Açougueiro" ;
+    rdfs:comment "Um aldeão empregado como açougueiro, profissão ligada ao defumador." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf hmmm:AldeaoEmpregado .
+
+hmmm:Clérigo a owl:Class, gufo:Role, hmmm:Profissao ;
+    rdfs:label "Clérigo" ;
+    rdfs:comment "Um aldeão empregado como clérigo, profissão ligada ao suporte de poções." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf hmmm:AldeaoEmpregado .
+
+hmmm:Troca a owl:Class, gufo:EventType ;
+    rdfs:label "Troca" ;
+    rdfs:comment """Um jogador e um aldeão negociaram: o jogador entregou os itens pedidos
+e recebeu o item oferecido.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf
+        gufo:Event,
+        [ a owl:Restriction ;
+          owl:onProperty [ owl:inverseOf hmmm:Aldeao.negociouEm ] ;
+          owl:onClass hmmm:Aldeao ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty [ owl:inverseOf hmmm:Jogador.negociouEm ] ;
+          owl:onClass hmmm:Jogador ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty [ owl:inverseOf hmmm:OfertaDeTroca.manifestouSeEm ] ;
+          owl:onClass hmmm:OfertaDeTroca ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ] .
+
+hmmm:AldeaoComProfissaoFixada a owl:Class, gufo:Role ;
+    rdfs:label "AldeaoComProfissaoFixada" ;
+    rdfs:comment """Um aldeão empregado que já negociou ao menos uma vez.
+
+Só um aldeão empregado negocia, e a primeira troca fixa a profissão dele:
+o emprego não termina mais, nem se o bloco de trabalho for destruído.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf hmmm:AldeaoEmpregado ;
+    owl:equivalentClass [ a owl:Class ;
+                          owl:intersectionOf (
+                              hmmm:AldeaoEmpregado
+                              hmmm:AldeaoEmpregado
+                              [ a owl:Restriction ;
+                                owl:onProperty hmmm:Aldeao.negociouEm ;
+                                owl:someValuesFrom hmmm:Troca ]
+                          ) ] .
+
+hmmm:TipoDeItem a owl:Class ;
+    rdfs:label "TipoDeItem" ;
+    rdfs:comment """Um tipo de item do jogo, como esmeralda, trigo ou livro encantado.
+
+As instâncias são os tipos de item, e não os itens que estão no
+inventário de alguém.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf gufo:Type .
+
+hmmm:NivelDeProfissao a owl:Class, gufo:AbstractIndividualType ;
+    rdfs:label "NivelDeProfissao" ;
+    rdfs:comment "Um dos cinco níveis que um aldeão empregado alcança ganhando experiência." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf gufo:QualityValue ;
+    owl:equivalentClass [ a owl:Class ;
+                          owl:oneOf (
+                              hmmm:NivelDeProfissao.Aprendiz
+                              hmmm:NivelDeProfissao.Experiente
+                              hmmm:NivelDeProfissao.Mestre
+                              hmmm:NivelDeProfissao.Novato
+                              hmmm:NivelDeProfissao.Qualificado
+                          ) ] .
+
+hmmm:NivelDeProfissao.Novato a owl:NamedIndividual, hmmm:NivelDeProfissao ;
+    rdfs:label "Novato" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> .
+
+hmmm:NivelDeProfissao.Aprendiz a owl:NamedIndividual, hmmm:NivelDeProfissao ;
+    rdfs:label "Aprendiz" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> .
+
+hmmm:NivelDeProfissao.Qualificado a owl:NamedIndividual, hmmm:NivelDeProfissao ;
+    rdfs:label "Qualificado" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> .
+
+hmmm:NivelDeProfissao.Experiente a owl:NamedIndividual, hmmm:NivelDeProfissao ;
+    rdfs:label "Experiente" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> .
+
+hmmm:NivelDeProfissao.Mestre a owl:NamedIndividual, hmmm:NivelDeProfissao ;
+    rdfs:label "Mestre" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers (
+        hmmm:NivelDeProfissao.Aprendiz
+        hmmm:NivelDeProfissao.Experiente
+        hmmm:NivelDeProfissao.Mestre
+        hmmm:NivelDeProfissao.Novato
+        hmmm:NivelDeProfissao.Qualificado
+    ) .
+
+hmmm:TipoDeOferta a owl:Class ;
+    rdfs:label "TipoDeOferta" ;
+    rdfs:comment """Uma troca que o jogo prevê para uma profissão em um nível, como
+\"O Agricultor Novato compra 20 trigos por uma esmeralda\".
+
+As instâncias são os tipos de oferta.
+Cada oferta de um aldeão é de um desses tipos.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf
+        gufo:Type,
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:TipoDeOferta.nivel ;
+          owl:onClass hmmm:NivelDeProfissao ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:TipoDeOferta.usosMaximos ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:TipoDeOferta.experienciaConcedida ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:TipoDeOferta.pertenceA ;
+          owl:someValuesFrom hmmm:Profissao ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:TipoDeOferta.pede ;
+          owl:someValuesFrom hmmm:TipoDeItem ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:TipoDeOferta.oferece ;
+          owl:someValuesFrom hmmm:TipoDeItem ] ;
+    gufo:partitions hmmm:OfertaDeTroca .
+
+hmmm:OfertaDeTroca a owl:Class, gufo:Kind ;
+    rdfs:label "OfertaDeTroca" ;
+    rdfs:comment """A disposição de um aldeão empregado de fazer uma troca com qualquer
+jogador: entregar um item em troca dos itens que pede.
+
+Ao alcançar cada nível, o aldeão sorteia até duas ofertas entre os tipos
+daquele nível para a sua profissão, e mantém as que já tinha. O tipo da
+oferta é da profissão do aldeão e de um nível que ele já alcançou.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:subClassOf
+        gufo:IntrinsicMode,
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:OfertaDeTroca.quantidadePedida ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:OfertaDeTroca.quantidadePedidaTambem ;
+          owl:maxCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:OfertaDeTroca.quantidadeOferecida ;
+          owl:cardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:OfertaDeTroca.usos ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+          owl:onProperty hmmm:OfertaDeTroca.inheresInAldeaoEmpregado ;
+          owl:onClass hmmm:AldeaoEmpregado ;
+          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ] .
+
+hmmm:AldeaoEmpregado.experiencia a owl:DatatypeProperty ;
+    rdfs:label "experiencia" ;
+    rdfs:comment "Os pontos de experiência que o aldeão acumulou negociando." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:AldeaoEmpregado ;
+    rdfs:range xsd:decimal ;
+    rdfs:subPropertyOf gufo:hasQualityValue .
+
+hmmm:AldeaoEmpregado.nivel a owl:ObjectProperty ;
+    rdfs:label "nivel" ;
+    rdfs:comment """O nível que o aldeão alcançou na profissão. Decorre da experiência:
+Aprendiz a partir de 10 pontos, Qualificado a partir de 70, Experiente
+a partir de 150 e Mestre a partir de 250.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:AldeaoEmpregado ;
+    rdfs:range hmmm:NivelDeProfissao ;
+    rdfs:subPropertyOf gufo:hasReifiedQualityValue .
+
+hmmm:TipoDeOferta.nivel a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "nivel" ;
+    rdfs:comment "O nível a partir do qual um aldeão da profissão pode ter esta oferta." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:TipoDeOferta ;
+    rdfs:range hmmm:NivelDeProfissao .
+
+hmmm:TipoDeOferta.usosMaximos a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "usosMaximos" ;
+    rdfs:comment "Quantas vezes uma oferta deste tipo pode ser usada antes de esgotar." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:TipoDeOferta ;
+    rdfs:range xsd:decimal .
+
+hmmm:TipoDeOferta.experienciaConcedida a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "experienciaConcedida" ;
+    rdfs:comment """Quanto de experiência o aldeão ganha a cada troca feita por meio de
+uma oferta deste tipo.""" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:TipoDeOferta ;
+    rdfs:range xsd:decimal .
+
+hmmm:OfertaDeTroca.quantidadePedida a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "quantidadePedida" ;
+    rdfs:comment "Quantos itens do primeiro tipo o aldeão pede, antes de descontos e demanda." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:OfertaDeTroca ;
+    rdfs:range xsd:decimal ;
+    rdfs:subPropertyOf gufo:hasQualityValue .
+
+hmmm:OfertaDeTroca.quantidadePedidaTambem a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "quantidadePedidaTambem" ;
+    rdfs:comment "Quantos itens do segundo tipo o aldeão pede, quando há." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:OfertaDeTroca ;
+    rdfs:range xsd:decimal ;
+    rdfs:subPropertyOf gufo:hasQualityValue .
+
+hmmm:OfertaDeTroca.quantidadeOferecida a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "quantidadeOferecida" ;
+    rdfs:comment "Quantos itens o aldeão entrega." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:OfertaDeTroca ;
+    rdfs:range xsd:decimal ;
+    rdfs:subPropertyOf gufo:hasQualityValue .
+
+hmmm:OfertaDeTroca.usos a owl:DatatypeProperty ;
+    rdfs:label "usos" ;
+    rdfs:comment "Quantas vezes a oferta foi usada desde o último reabastecimento." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:OfertaDeTroca ;
+    rdfs:range xsd:decimal ;
+    rdfs:subPropertyOf gufo:hasQualityValue .
+
+hmmm:Emprego.mediatesAldeaoEmpregado a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "Emprego.mediatesAldeaoEmpregado" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:Emprego ;
+    rdfs:range hmmm:AldeaoEmpregado ;
+    rdfs:subPropertyOf gufo:mediates .
+
+hmmm:Emprego.mediatesProfissao a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "Emprego.mediatesProfissao" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:Emprego ;
+    rdfs:range hmmm:Profissao .
+
+hmmm:Reivindicacao.mediatesAldeaoEmpregadoComBloco a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "Reivindicacao.mediatesAldeaoEmpregadoComBloco" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:Reivindicacao ;
+    rdfs:range hmmm:AldeaoEmpregadoComBloco ;
+    rdfs:subPropertyOf gufo:mediates .
+
+hmmm:Reivindicacao.mediatesBlocoDeTrabalho a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "Reivindicacao.mediatesBlocoDeTrabalho" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:Reivindicacao ;
+    rdfs:range hmmm:BlocoDeTrabalho ;
+    rdfs:subPropertyOf gufo:mediates .
+
+hmmm:Aldeao.negociouEm a owl:ObjectProperty, owl:InverseFunctionalProperty ;
+    rdfs:label "negociouEm" ;
+    rdfs:comment "Um aldeão negociou com um jogador." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:Aldeao ;
+    rdfs:range hmmm:Troca ;
+    rdfs:subPropertyOf gufo:participatedIn .
+
+hmmm:Jogador.negociouEm a owl:ObjectProperty, owl:InverseFunctionalProperty ;
+    rdfs:label "negociouEm" ;
+    rdfs:comment "Um jogador negociou com um aldeão." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:Jogador ;
+    rdfs:range hmmm:Troca ;
+    rdfs:subPropertyOf gufo:participatedIn .
+
+hmmm:TipoDeOferta.pertenceA a owl:ObjectProperty ;
+    rdfs:label "pertenceA" ;
+    rdfs:comment "A profissão cujos aldeões podem ter ofertas deste tipo." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:TipoDeOferta ;
+    rdfs:range hmmm:Profissao .
+
+hmmm:TipoDeOferta.pede a owl:ObjectProperty ;
+    rdfs:label "pede" ;
+    rdfs:comment "O primeiro item que o aldeão pede." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:TipoDeOferta ;
+    rdfs:range hmmm:TipoDeItem .
+
+hmmm:TipoDeOferta.pedeTambem a owl:ObjectProperty ;
+    rdfs:label "pedeTambem" ;
+    rdfs:comment "O segundo item que o aldeão pede, quando há." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:TipoDeOferta ;
+    rdfs:range hmmm:TipoDeItem .
+
+hmmm:TipoDeOferta.oferece a owl:ObjectProperty ;
+    rdfs:label "oferece" ;
+    rdfs:comment "O item que o aldeão entrega." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:TipoDeOferta ;
+    rdfs:range hmmm:TipoDeItem .
+
+hmmm:OfertaDeTroca.inheresInAldeaoEmpregado a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "OfertaDeTroca.inheresInAldeaoEmpregado" ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:OfertaDeTroca ;
+    rdfs:range hmmm:AldeaoEmpregado ;
+    rdfs:subPropertyOf gufo:inheresIn .
+
+hmmm:OfertaDeTroca.manifestouSeEm a owl:ObjectProperty, owl:InverseFunctionalProperty ;
+    rdfs:label "manifestouSeEm" ;
+    rdfs:comment "Uma troca aconteceu por meio desta oferta, com o aldeão que a tem." ;
+    rdfs:isDefinedBy <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm> ;
+    rdfs:domain hmmm:OfertaDeTroca ;
+    rdfs:range hmmm:Troca ;
+    rdfs:subPropertyOf gufo:manifestedIn .
+
+[] a owl:AllDisjointClasses ;
+    owl:members (
+        hmmm:Aldeao
+        hmmm:BlocoDeTrabalho
+        hmmm:Emprego
+        hmmm:Jogador
+        hmmm:OfertaDeTroca
+        hmmm:Profissao
+        hmmm:Reivindicacao
+        hmmm:TipoDeItem
+        hmmm:TipoDeOferta
+        hmmm:Troca
+    ) .
+
+vann:preferredNamespacePrefix a owl:AnnotationProperty .
+
+vann:preferredNamespaceUri a owl:AnnotationProperty .

@@ -1,4 +1,6 @@
+/// @namespace http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm#
 ontology hmmm
+
 
 /// Uma pessoa que joga Minecraft em um mundo.
 kind Jogador
