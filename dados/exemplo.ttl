@@ -1,0 +1,378 @@
+# Dados de teste para experimentar as consultas antes de
+# existirem os scripts de importação.
+#
+# Catálogo: todas as ofertas do açougueiro e do clérigo na Java Edition,
+# segundo a Minecraft Wiki (https://minecraft.wiki/w/Trading).
+# Mundo: dois aldeões, um jogador e uma troca inventados.
+#
+# Os IRIs de itens usam o identificador do jogo (minecraft:chicken -> item:chicken).
+# Os tipos de oferta seguem <profissão>-<nível>-<item pedido>-<item oferecido>.
+
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix hmmm:  <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm#> .
+@prefix item:  <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm/dados/item/> .
+@prefix tipo:  <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm/dados/tipo-de-oferta/> .
+@prefix mundo: <http://www.semanticweb.org/bruno-vitor/ontologies/2026/11/hmmm/dados/mundo-teste/> .
+
+#################################################################
+#    Tipos de item
+#################################################################
+
+item:emerald            a hmmm:TipoDeItem ; rdfs:label "Esmeralda"@pt-br .
+item:chicken            a hmmm:TipoDeItem ; rdfs:label "Frango cru"@pt-br .
+item:rabbit             a hmmm:TipoDeItem ; rdfs:label "Coelho cru"@pt-br .
+item:porkchop           a hmmm:TipoDeItem ; rdfs:label "Costeleta de porco crua"@pt-br .
+item:rabbit_stew        a hmmm:TipoDeItem ; rdfs:label "Ensopado de coelho"@pt-br .
+item:coal               a hmmm:TipoDeItem ; rdfs:label "Carvão"@pt-br .
+item:cooked_chicken     a hmmm:TipoDeItem ; rdfs:label "Frango assado"@pt-br .
+item:cooked_porkchop    a hmmm:TipoDeItem ; rdfs:label "Costeleta de porco assada"@pt-br .
+item:beef               a hmmm:TipoDeItem ; rdfs:label "Carne bovina crua"@pt-br .
+item:mutton             a hmmm:TipoDeItem ; rdfs:label "Carne de carneiro crua"@pt-br .
+item:dried_kelp_block   a hmmm:TipoDeItem ; rdfs:label "Bloco de alga seca"@pt-br .
+item:sweet_berries      a hmmm:TipoDeItem ; rdfs:label "Bagas doces"@pt-br .
+item:rotten_flesh       a hmmm:TipoDeItem ; rdfs:label "Carne podre"@pt-br .
+item:redstone           a hmmm:TipoDeItem ; rdfs:label "Pó de redstone"@pt-br .
+item:gold_ingot         a hmmm:TipoDeItem ; rdfs:label "Barra de ouro"@pt-br .
+item:lapis_lazuli       a hmmm:TipoDeItem ; rdfs:label "Lápis-lazúli"@pt-br .
+item:rabbit_foot        a hmmm:TipoDeItem ; rdfs:label "Pé de coelho"@pt-br .
+item:glowstone          a hmmm:TipoDeItem ; rdfs:label "Pedra luminosa"@pt-br .
+item:turtle_scute       a hmmm:TipoDeItem ; rdfs:label "Escama de tartaruga"@pt-br .
+item:glass_bottle       a hmmm:TipoDeItem ; rdfs:label "Frasco de vidro"@pt-br .
+item:ender_pearl        a hmmm:TipoDeItem ; rdfs:label "Pérola do End"@pt-br .
+item:nether_wart        a hmmm:TipoDeItem ; rdfs:label "Fungo do Nether"@pt-br .
+item:experience_bottle  a hmmm:TipoDeItem ; rdfs:label "Frasco de experiência"@pt-br .
+
+#################################################################
+#    Tipos de oferta (catálogo do jogo)
+#################################################################
+#
+# Cada tipo de oferta é instância de hmmm:TipoDeOferta e também uma classe
+# cujas instâncias são as ofertas concretas dos aldeões. O modelo ainda não
+# tem as quantidades no tipo de oferta; elas estão nos comentários.
+
+# Açougueiro, Novato
+
+# 14 frangos crus -> 1 esmeralda
+tipo:butcher-1-chicken-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Novato ;
+    hmmm:TipoDeOferta.pede item:chicken ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 16 ;
+    hmmm:TipoDeOferta.experienciaConcedida 2 .
+
+# 4 coelhos crus -> 1 esmeralda
+tipo:butcher-1-rabbit-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Novato ;
+    hmmm:TipoDeOferta.pede item:rabbit ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 16 ;
+    hmmm:TipoDeOferta.experienciaConcedida 2 .
+
+# 7 costeletas de porco cruas -> 1 esmeralda
+tipo:butcher-1-porkchop-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Novato ;
+    hmmm:TipoDeOferta.pede item:porkchop ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 16 ;
+    hmmm:TipoDeOferta.experienciaConcedida 2 .
+
+# 1 esmeralda -> 1 ensopado de coelho
+tipo:butcher-1-emerald-rabbit_stew a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Novato ;
+    hmmm:TipoDeOferta.pede item:emerald ;
+    hmmm:TipoDeOferta.oferece item:rabbit_stew ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 1 .
+
+# Açougueiro, Aprendiz
+
+# 15 carvões -> 1 esmeralda
+tipo:butcher-2-coal-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Aprendiz ;
+    hmmm:TipoDeOferta.pede item:coal ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 16 ;
+    hmmm:TipoDeOferta.experienciaConcedida 2 .
+
+# 1 esmeralda -> 8 frangos assados
+tipo:butcher-2-emerald-cooked_chicken a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Aprendiz ;
+    hmmm:TipoDeOferta.pede item:emerald ;
+    hmmm:TipoDeOferta.oferece item:cooked_chicken ;
+    hmmm:TipoDeOferta.usosMaximos 16 ;
+    hmmm:TipoDeOferta.experienciaConcedida 5 .
+
+# 1 esmeralda -> 5 costeletas de porco assadas
+tipo:butcher-2-emerald-cooked_porkchop a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Aprendiz ;
+    hmmm:TipoDeOferta.pede item:emerald ;
+    hmmm:TipoDeOferta.oferece item:cooked_porkchop ;
+    hmmm:TipoDeOferta.usosMaximos 16 ;
+    hmmm:TipoDeOferta.experienciaConcedida 5 .
+
+# Açougueiro, Qualificado
+
+# 10 carnes bovinas cruas -> 1 esmeralda
+tipo:butcher-3-beef-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Qualificado ;
+    hmmm:TipoDeOferta.pede item:beef ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 16 ;
+    hmmm:TipoDeOferta.experienciaConcedida 20 .
+
+# 7 carnes de carneiro cruas -> 1 esmeralda
+tipo:butcher-3-mutton-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Qualificado ;
+    hmmm:TipoDeOferta.pede item:mutton ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 16 ;
+    hmmm:TipoDeOferta.experienciaConcedida 20 .
+
+# Açougueiro, Experiente
+
+# 10 blocos de alga seca -> 1 esmeralda
+tipo:butcher-4-dried_kelp_block-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Experiente ;
+    hmmm:TipoDeOferta.pede item:dried_kelp_block ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 30 .
+
+# Açougueiro, Mestre
+
+# 10 bagas doces -> 1 esmeralda
+tipo:butcher-5-sweet_berries-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Açougueiro ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Mestre ;
+    hmmm:TipoDeOferta.pede item:sweet_berries ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 30 .
+
+# Clérigo, Novato
+
+# 32 carnes podres -> 1 esmeralda
+tipo:cleric-1-rotten_flesh-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Novato ;
+    hmmm:TipoDeOferta.pede item:rotten_flesh ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 16 ;
+    hmmm:TipoDeOferta.experienciaConcedida 2 .
+
+# 1 esmeralda -> 2 pós de redstone
+tipo:cleric-1-emerald-redstone a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Novato ;
+    hmmm:TipoDeOferta.pede item:emerald ;
+    hmmm:TipoDeOferta.oferece item:redstone ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 1 .
+
+# Clérigo, Aprendiz
+
+# 3 barras de ouro -> 1 esmeralda
+tipo:cleric-2-gold_ingot-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Aprendiz ;
+    hmmm:TipoDeOferta.pede item:gold_ingot ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 10 .
+
+# 1 esmeralda -> 1 lápis-lazúli
+tipo:cleric-2-emerald-lapis_lazuli a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Aprendiz ;
+    hmmm:TipoDeOferta.pede item:emerald ;
+    hmmm:TipoDeOferta.oferece item:lapis_lazuli ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 5 .
+
+# Clérigo, Qualificado
+
+# 2 pés de coelho -> 1 esmeralda
+tipo:cleric-3-rabbit_foot-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Qualificado ;
+    hmmm:TipoDeOferta.pede item:rabbit_foot ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 20 .
+
+# 4 esmeraldas -> 1 pedra luminosa
+tipo:cleric-3-emerald-glowstone a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Qualificado ;
+    hmmm:TipoDeOferta.pede item:emerald ;
+    hmmm:TipoDeOferta.oferece item:glowstone ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 10 .
+
+# Clérigo, Experiente
+
+# 4 escamas de tartaruga -> 1 esmeralda
+tipo:cleric-4-turtle_scute-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Experiente ;
+    hmmm:TipoDeOferta.pede item:turtle_scute ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 30 .
+
+# 9 frascos de vidro -> 1 esmeralda
+tipo:cleric-4-glass_bottle-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Experiente ;
+    hmmm:TipoDeOferta.pede item:glass_bottle ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 30 .
+
+# 5 esmeraldas -> 1 pérola do End
+tipo:cleric-4-emerald-ender_pearl a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Experiente ;
+    hmmm:TipoDeOferta.pede item:emerald ;
+    hmmm:TipoDeOferta.oferece item:ender_pearl ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 15 .
+
+# Clérigo, Mestre
+
+# 22 fungos do Nether -> 1 esmeralda
+tipo:cleric-5-nether_wart-emerald a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Mestre ;
+    hmmm:TipoDeOferta.pede item:nether_wart ;
+    hmmm:TipoDeOferta.oferece item:emerald ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 30 .
+
+# 3 esmeraldas -> 1 frasco de experiência
+tipo:cleric-5-emerald-experience_bottle a hmmm:TipoDeOferta, owl:Class ;
+    rdfs:subClassOf hmmm:OfertaDeTroca ;
+    hmmm:TipoDeOferta.pertenceA hmmm:Clérigo ;
+    hmmm:TipoDeOferta.nivel hmmm:NivelDeProfissao.Mestre ;
+    hmmm:TipoDeOferta.pede item:emerald ;
+    hmmm:TipoDeOferta.oferece item:experience_bottle ;
+    hmmm:TipoDeOferta.usosMaximos 12 ;
+    hmmm:TipoDeOferta.experienciaConcedida 30 .
+
+#################################################################
+#    Mundo de teste
+#################################################################
+
+mundo:steve a hmmm:Jogador ;
+    rdfs:label "Steve" .
+
+mundo:defumador-1 a hmmm:BlocoDeTrabalho ;
+    rdfs:label "Defumador perto do sino" .
+
+# Um açougueiro novato que ainda não negociou: o emprego se sustenta pela
+# reivindicação do defumador. Sorteou 2 das 4 ofertas de Novato.
+
+mundo:aldeao-1 a hmmm:Açougueiro, hmmm:AldeaoEmpregadoComBloco,
+        hmmm:AldeaoAdulto, hmmm:AldeaoSaudavel ;
+    rdfs:label "Açougueiro novato" ;
+    hmmm:AldeaoEmpregado.experiencia 0 ;
+    hmmm:AldeaoEmpregado.nivel hmmm:NivelDeProfissao.Novato .
+
+mundo:emprego-1 a hmmm:Emprego ;
+    hmmm:Emprego.mediatesAldeaoEmpregado mundo:aldeao-1 ;
+    hmmm:Emprego.mediatesProfissao hmmm:Açougueiro .
+
+mundo:reivindicacao-1 a hmmm:Reivindicacao ;
+    hmmm:Reivindicacao.mediatesAldeaoEmpregadoComBloco mundo:aldeao-1 ;
+    hmmm:Reivindicacao.mediatesBlocoDeTrabalho mundo:defumador-1 .
+
+mundo:oferta-1-1 a hmmm:OfertaDeTroca, tipo:butcher-1-chicken-emerald ;
+    hmmm:OfertaDeTroca.inheresInAldeaoEmpregado mundo:aldeao-1 ;
+    hmmm:OfertaDeTroca.quantidadePedida 14 ;
+    hmmm:OfertaDeTroca.quantidadeOferecida 1 ;
+    hmmm:OfertaDeTroca.usos 0 .
+
+mundo:oferta-1-2 a hmmm:OfertaDeTroca, tipo:butcher-1-emerald-rabbit_stew ;
+    hmmm:OfertaDeTroca.inheresInAldeaoEmpregado mundo:aldeao-1 ;
+    hmmm:OfertaDeTroca.quantidadePedida 1 ;
+    hmmm:OfertaDeTroca.quantidadeOferecida 1 ;
+    hmmm:OfertaDeTroca.usos 0 .
+
+# Um clérigo aprendiz que já negociou e perdeu o suporte de poções: o
+# emprego se sustenta pela profissão fixada. Fez 5 trocas de carne podre e
+# 12 de redstone (5 x 2 + 12 x 1 = 22 pontos de experiência). A oferta de
+# redstone está esgotada.
+
+mundo:aldeao-2 a hmmm:Clérigo, hmmm:AldeaoComProfissaoFixada,
+        hmmm:AldeaoAdulto, hmmm:AldeaoSaudavel ;
+    rdfs:label "Clérigo aprendiz" ;
+    hmmm:AldeaoEmpregado.experiencia 22 ;
+    hmmm:AldeaoEmpregado.nivel hmmm:NivelDeProfissao.Aprendiz .
+
+mundo:emprego-2 a hmmm:Emprego ;
+    hmmm:Emprego.mediatesAldeaoEmpregado mundo:aldeao-2 ;
+    hmmm:Emprego.mediatesProfissao hmmm:Clérigo .
+
+mundo:oferta-2-1 a hmmm:OfertaDeTroca, tipo:cleric-1-rotten_flesh-emerald ;
+    hmmm:OfertaDeTroca.inheresInAldeaoEmpregado mundo:aldeao-2 ;
+    hmmm:OfertaDeTroca.quantidadePedida 32 ;
+    hmmm:OfertaDeTroca.quantidadeOferecida 1 ;
+    hmmm:OfertaDeTroca.usos 5 .
+
+mundo:oferta-2-2 a hmmm:OfertaDeTroca, tipo:cleric-1-emerald-redstone ;
+    hmmm:OfertaDeTroca.inheresInAldeaoEmpregado mundo:aldeao-2 ;
+    hmmm:OfertaDeTroca.quantidadePedida 1 ;
+    hmmm:OfertaDeTroca.quantidadeOferecida 2 ;
+    hmmm:OfertaDeTroca.usos 12 .
+
+mundo:oferta-2-3 a hmmm:OfertaDeTroca, tipo:cleric-2-gold_ingot-emerald ;
+    hmmm:OfertaDeTroca.inheresInAldeaoEmpregado mundo:aldeao-2 ;
+    hmmm:OfertaDeTroca.quantidadePedida 3 ;
+    hmmm:OfertaDeTroca.quantidadeOferecida 1 ;
+    hmmm:OfertaDeTroca.usos 0 .
+
+mundo:oferta-2-4 a hmmm:OfertaDeTroca, tipo:cleric-2-emerald-lapis_lazuli ;
+    hmmm:OfertaDeTroca.inheresInAldeaoEmpregado mundo:aldeao-2 ;
+    hmmm:OfertaDeTroca.quantidadePedida 1 ;
+    hmmm:OfertaDeTroca.quantidadeOferecida 1 ;
+    hmmm:OfertaDeTroca.usos 0 .
+
+# Uma das trocas de carne podre entre Steve e o clérigo.
+
+mundo:troca-1 a hmmm:Troca .
+
+mundo:aldeao-2 hmmm:Aldeao.negociouEm mundo:troca-1 .
+mundo:steve hmmm:Jogador.negociouEm mundo:troca-1 .
+mundo:oferta-2-1 hmmm:OfertaDeTroca.manifestouSeEm mundo:troca-1 .
