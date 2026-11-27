@@ -7,24 +7,7 @@ kind Jogador
 
 /// Um bloco que um aldeão pode reivindicar como seu local de trabalho,
 /// como o defumador ou o suporte de poções.
-kind BlocoDeTrabalho {
-    @instantiation [0..*] -- [1] (const) TipoDeBlocoDeTrabalho
-}
-
-/// Um tipo de bloco de trabalho, como o defumador ou o suporte de poções.
-///
-/// As instâncias são os tipos de bloco, e não os blocos colocados no mundo.
-type TipoDeBlocoDeTrabalho
-
-/// Um bloco de trabalho em que um aldeão se torna açougueiro.
-subkind Defumador (instanceOf TipoDeBlocoDeTrabalho) specializes BlocoDeTrabalho
-/// Um bloco de trabalho em que um aldeão se torna clérigo.
-subkind SuporteDePocoes (instanceOf TipoDeBlocoDeTrabalho) specializes BlocoDeTrabalho
-disjoint genset tipoDeBloco {
-    general BlocoDeTrabalho
-    categorizer TipoDeBlocoDeTrabalho
-    specifics Defumador, SuporteDePocoes
-}
+kind BlocoDeTrabalho
 
 kind Aldeao
 
@@ -44,14 +27,8 @@ disjoint complete genset saúde
 /// Uma profissão de aldeão, como açougueiro ou clérigo.
 type Profissao
 
-/// Uma profissão só é exercida por meio de um bloco de trabalho do seu tipo:
-/// o açougueiro, pelo defumador; o clérigo, pelo suporte de poções.
-relation Profissao [1] -- dependeDe -- [1] TipoDeBlocoDeTrabalho
-
 /// Um aldeão que exerce uma profissão.
-roleMixin AldeaoEmpregado of functional-complexes {
-    /// A profissão que o aldeão exerce.
-    @instantiation [0..*] -- [1] (const) Profissao
+role AldeaoEmpregado specializes Aldeao {
     /// Os pontos de experiência que o aldeão acumulou negociando.
     experiencia: number
     /// O nível que o aldeão alcançou na profissão. Decorre da experiência:
@@ -60,8 +37,18 @@ roleMixin AldeaoEmpregado of functional-complexes {
     nivel: NivelDeProfissao
 }
 
+
+
+/// O vínculo entre um aldeão e a profissão que ele exerce.
+///
+/// Começa quando o aldeão reivindica um bloco de trabalho.
+relator Emprego {
+    @mediation [1] -- [1] (const) AldeaoEmpregado
+    @mediation [0..*] -- [1] (const) Profissao
+}
+
 /// Um aldeão empregado que reivindica um bloco de trabalho.
-role AldeaoEmpregadoComBloco specializes Aldeao, AldeaoEmpregado
+role AldeaoEmpregadoComBloco specializes AldeaoEmpregado
 
 /// Um aldeão só é empregado enquanto reivindica um bloco ou depois de ter
 /// negociado. Os dois casos podem valer ao mesmo tempo.
@@ -78,9 +65,9 @@ relator Reivindicacao {
 }
 
 /// Um aldeão empregado como açougueiro, profissão ligada ao defumador.
-role Açougueiro (instanceOf Profissao) specializes Aldeao, AldeaoEmpregado
+role Açougueiro (instanceOf Profissao) specializes AldeaoEmpregado
 /// Um aldeão empregado como clérigo, profissão ligada ao suporte de poções.
-role Clérigo (instanceOf Profissao) specializes Aldeao, AldeaoEmpregado
+role Clérigo (instanceOf Profissao) specializes AldeaoEmpregado
 disjoint genset profissão {
     general AldeaoEmpregado
     categorizer Profissao
@@ -100,7 +87,7 @@ event Troca
 ///
 /// Só um aldeão empregado negocia, e a primeira troca fixa a profissão dele:
 /// o emprego não termina mais, nem se o bloco de trabalho for destruído.
-historicalRole AldeaoComProfissaoFixada specializes Aldeao, AldeaoEmpregado derivedFrom Aldeao.negociouEm
+historicalRole AldeaoComProfissaoFixada specializes AldeaoEmpregado derivedFrom Aldeao.negociouEm
 
 /// Um tipo de item do jogo, como esmeralda, trigo ou livro encantado.
 ///

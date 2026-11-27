@@ -73,19 +73,19 @@
       "y": -104
     },
     "hmmm::Açougueiro": {
-      "x": 504,
-      "y": 128
+      "x": 216,
+      "y": 256
     },
     "hmmm::Clérigo": {
-      "x": 520,
-      "y": 224
+      "x": 344,
+      "y": 256
     },
     "hmmm::AldeaoComProfissaoFixada": {
       "x": -56,
       "y": 112
     },
     "hmmm::AldeaoEmpregadoComBloco": {
-      "x": -48,
+      "x": -56,
       "y": 176
     },
     "hmmm::Reivindicacao": {
@@ -97,8 +97,8 @@
       "y": 392
     },
     "hmmm::Profissao": {
-      "x": 352,
-      "y": 408
+      "x": 280,
+      "y": 360
     },
     "hmmm::Emprego": {
       "x": 280,
@@ -133,36 +133,24 @@
       "y": 296
     },
     "hmmm::AldeaoEmpregado": {
-      "x": 288,
-      "y": 136
+      "x": 264,
+      "y": 120
     },
     "hmmm::TipoDeItem": {
-      "x": 728,
-      "y": 768
+      "x": 520,
+      "y": 616
     },
     "hmmm::TipoDeOferta": {
-      "x": 320,
-      "y": 744
+      "x": 184,
+      "y": 584
     },
     "hmmm::NivelDeProfissao": {
-      "x": 848,
-      "y": 488
+      "x": 456,
+      "y": 416
     },
     "hmmm::OfertaDeTroca": {
-      "x": -216,
-      "y": 744
-    },
-    "hmmm::TipoDeBlocoDeTrabalho": {
-      "x": 104,
-      "y": 464
-    },
-    "hmmm::SuporteDePocoes": {
-      "x": 96,
-      "y": 632
-    },
-    "hmmm::Defumador": {
-      "x": -56,
-      "y": 632
+      "x": -192,
+      "y": 568
     }
   },
   "edges": {}
