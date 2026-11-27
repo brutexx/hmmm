@@ -22,10 +22,11 @@ Só um aldeão empregado negocia, então ter a profissão fixada pressupõe esta
 Em `src/hmmm.tonto`:
 
 - `type Profissao` é um tipo de ordem superior cujas instâncias são as profissões (`Açougueiro`, `Clérigo`, ...), no padrão `categorization-odell`. O genset `profissão` o declara como `categorizer`.
-- `relator Emprego` liga o `AldeaoEmpregado` à sua `Profissao` e funda o papel `AldeaoEmpregado`.
+- `roleMixin AldeaoEmpregado` generaliza `AldeaoEmpregadoComBloco`, `AldeaoComProfissaoFixada` e as profissões; cada um desses especializa `Aldeao` diretamente. A profissão do aldeão é dada por `@instantiation` de `AldeaoEmpregado` para `Profissao` (substitui o antigo `relator Emprego`).
+- `type TipoDeBlocoDeTrabalho` categoriza os blocos de trabalho (`Defumador`, `SuporteDePocoes`, ...), no mesmo padrão de `Profissao`. `Profissao dependeDe TipoDeBlocoDeTrabalho` diz de que tipo de bloco cada profissão depende.
 - `relator Reivindicacao` liga o `AldeaoEmpregadoComBloco` ao `BlocoDeTrabalho`.
 - `event Troca`, com participações a partir dos tipos rígidos `Aldeao` e `Jogador` (`negociouEm`).
-- `historicalRole AldeaoComProfissaoFixada specializes AldeaoEmpregado derivedFrom Aldeao.negociouEm`.
+- `historicalRole AldeaoComProfissaoFixada specializes Aldeao, AldeaoEmpregado derivedFrom Aldeao.negociouEm`.
 - `complete genset sustentacaoDoEmprego` sobre `AldeaoEmpregado`, com `AldeaoEmpregadoComBloco` e `AldeaoComProfissaoFixada`. Não é `disjoint`: um aldeão fixado pode continuar com o bloco.
 
 Com isso, a estrutura diz:
@@ -37,14 +38,15 @@ Com isso, a estrutura diz:
 
 ## Aviso mantido de propósito
 
-`tonto check` emite `historical-role-specializes-anti-rigid` para `AldeaoComProfissaoFixada`. Um papel histórico vale para sempre depois de começar. Por isso, ao especializar `AldeaoEmpregado`, ele impede que o `Emprego` desse aldeão termine. A regra considera isso coerente e às vezes intencional. Aqui é intencional, porque essa é exatamente a regra do jogo.
+`tonto check` emite `historical-role-specializes-anti-rigid` para `AldeaoComProfissaoFixada`. Um papel histórico vale para sempre depois de começar. Por isso, ao especializar `AldeaoEmpregado`, ele impede que esse aldeão deixe de ser empregado. A regra considera isso coerente e às vezes intencional. Aqui é intencional, porque essa é exatamente a regra do jogo.
 
 ## Restrições fora da estrutura
 
-- A `Profissao` ligada ao `Emprego` deve ser a mesma role do aldeão: se o emprego aponta para Açougueiro, o aldeão é `Açougueiro`.
-- O bloco reivindicado deve ser o da profissão (defumador para açougueiro, suporte de poções para clérigo). Expressar isso exige tipos de bloco ligados a `Profissao`, ainda não modelados.
+- A `Profissao` que o `AldeaoEmpregado` instancia deve ser a mesma role do aldeão: se ele instancia Açougueiro, o aldeão é `Açougueiro`.
+- O tipo do bloco reivindicado deve ser aquele de que a profissão do aldeão depende (`dependeDe`): defumador para açougueiro, suporte de poções para clérigo.
 
 ## Em aberto
 
-- Se a reivindicação deve ser um evento que cria o `Emprego` (`@creation`).
+- Sem o `Emprego`, nada funda `AldeaoEmpregado`, `Açougueiro` e `Clérigo` (dica `role-without-relator`). Fundar o emprego na `Reivindicacao` e na `Troca` não cabe num relator só.
+- Tornar o genset `tipoDeBloco` `complete` junto com o `profissão`.
 - Tornar o genset `profissão` `complete` quando as 13 profissões estiverem no modelo.
